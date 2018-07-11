@@ -1,0 +1,14 @@
+# java class files
+*.class
+
+# idea files
+*.iml
+*/*.iml
+*.idea
+
+
+# out dir
+project/out/
+
+
+
