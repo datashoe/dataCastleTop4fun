@@ -6,7 +6,7 @@
 # ----
 
 sampleData1 <- read.table(
-  "F://myStudio/data/sample/sample0.txt",
+  "../../data/sample/sample0.txt",
   header = F,
   sep = ",",
   stringsAsFactors = F,
@@ -78,6 +78,7 @@ library(C50)
 # 通过lasso进行特征选择
 
 # 通过caret进行参数试验
+## 决策树
 ctrl <- trainControl(method = "cv", number = 10, "oneSE")
 grid <- expand.grid(.model = "tree",
                     .trials = c(1, 5, 10, 15, 20, 25, 30, 35),
@@ -96,6 +97,24 @@ m <- train(is_pay ~ .,
            tuneGrid = grid)
 
 m # 以全特征进行决策树训练发现准确率大约0.9940099, 在10左右最佳
+
+
+## 神经网络
+m <- train(is_pay ~ ., 
+           testDa[, !(colnames(testDa) %in% c("prediction_pay_price",
+                                              "pay_price",
+                                              "pay_count",
+                                              "user_id",
+                                              "register_time"))],
+           method = "nnet",
+           metric = "Kappa",
+           trControl = ctrl,
+           tuneGrid = grid)
+
+
+
+
+
 
 
 
